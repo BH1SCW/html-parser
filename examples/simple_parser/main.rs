@@ -1,4 +1,4 @@
-use html_parser::{Dom, Result};
+use html_parser::{Dom, Node, Result};
 use std::{
     fs::File,
     io::{self, Read},
@@ -46,16 +46,30 @@ fn main() -> Result<()> {
 
     let dom = Dom::parse(&content)?;
 
-    if opt.debug {
-        for error in &dom.errors {
-            println!("# {}", error);
-        }
-    }
+//    if opt.debug {
+//        for error in &dom.errors {
+//            println!("# {}", error);
+//        }
+//    }
 
-    if opt.pretty_print {
-        println!("{}", dom.to_json_pretty()?);
-    } else {
-        println!("{}", dom.to_json()?);
+//    if opt.pretty_print {
+//        println!("{}", dom.to_json_pretty()?);
+//    } else {
+//        println!("{}", dom.to_json()?);
+//    }
+
+    let iter = dom.children.get(0).unwrap().into_iter();
+
+    let hrefs = iter.filter_map(|item| match item {
+        Node::Element(ref element) if element.name == "a" => element.attributes["href"].clone(),
+        _ => None,
+    });
+
+    for (_, href) in hrefs.enumerate() {
+        if href.starts_with("/rpms") {
+            let pkg_name = &href[6..];
+            println!("{}", pkg_name);
+        }
     }
 
     Ok(())

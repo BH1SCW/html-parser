@@ -34,6 +34,18 @@ path = "examples/get_all_href/main.rs"
 name = "simple_parser"
 path = "examples/simple_parser/main.rs"
 
+[[example]]
+name = "1"
+path = "examples/1/1.rs"
+
+[[example]]
+name = "2"
+path = "examples/2/2.rs"
+
+[[example]]
+name = "3"
+path = "examples/3/3.rs"
+
 [[bench]]
 name = "bench_wikipedia"
 harness = false
